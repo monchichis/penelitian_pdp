@@ -25,6 +25,7 @@ class Penilaian_model extends CI_Model
     // Hapus semua data dari tabel penilaian
     $this->db->empty_table('penilaian');
   }
+  
   public function CekHeaderSmart($current_year)
   {
     $query = $this->db->select('id')
