@@ -1,0 +1,57 @@
+name: Deploy Penelitian PDP via FTP/FTPS
+
+on:
+  push:
+    branches:
+      - main # Pastikan ini adalah branch utama Anda (misalnya: 'master' atau 'production')
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest # Runner yang akan menjalankan workflow
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4 # Mengunduh kode dari repository Anda ke runner
+
+      # --- Langkah Baru: Cache Deployment State ---
+      # Ini akan menyimpan file .ftp-deploy-sync-state.json
+      # sehingga pada run berikutnya, action FTP akan tahu file mana yang sudah di-upload.
+      - name: Cache FTP Deployment State
+        uses: actions/cache@v4
+        id: ftp-cache-state # Beri ID agar bisa direferensikan nanti
+        with:
+          # Path ke file state yang dibuat oleh FTP-Deploy-Action
+          # Defaultnya adalah .ftp-deploy-sync-state.json di root repository
+          path: ./.ftp-deploy-sync-state.json
+          # Key untuk cache. Menggunakan hashFiles('**/*') agar cache di-invalidate
+          # jika ada perubahan pada file manapun, memastikan sync yang benar.
+          key: ${{ runner.os }}-ftp-deploy-${{ hashFiles('**/*') }}
+          # Fallback key jika key utama tidak ditemukan
+          restore-keys: |
+            ${{ runner.os }}-ftp-deploy-
+
+      - name: Deploy via FTP/FTPS
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.0
+        with:
+          # ... konfigurasi Anda yang lain
+          log-level: standard # Coba ini dulu. Jika masih kurang, ganti jadi 'debug'
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          port: 21
+          protocol: ftp # Gunakan 'ftps' untuk koneksi aman, atau 'ftp' jika ftps tidak bekerja.
+                         # Jangan pakai 'sftp'.
+
+          local-dir: './' # Path lokal yang akan diupload. Ini mengacu ke root repository Anda.
+          server-dir: ${{ secrets.FTP_REMOTE_PATH }} # Path di server tujuan Anda
+
+          # Sangat disarankan untuk secara eksplisit menamai file state agar cocok dengan cache
+          state-name: ./.ftp-deploy-sync-state.json
+
+          # Opsi lainnya:
+          # log-level: standard # Untuk logging yang lebih detail
+          # delete: true # Menghapus file di remote yang tidak ada di lokal. HATI-HATI!
+          # exclude: .git*,.github*,.vscode*,system*,application/config/database.php
+
+      - name: Deployment Completed!
+        run: echo "Deployment CodeIgniter 3 ke ${{ secrets.FTP_HOST }}:${{ secrets.FTP_REMOTE_PATH }} selesai!"
