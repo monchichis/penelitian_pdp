@@ -6,7 +6,7 @@
         Page rendered in <strong>{elapsed_time}</strong> seconds. <?php echo  (ENVIRONMENT === 'production') ?  'CodeIgniter Version <strong>' . CI_VERSION . '</strong>' : '' ?>
     </div>
     <div>
-       Developer by : <span class="badge badge-primary"><?= $identitas->nama_developer ?></span> &copy; <?php echo date('Y'); ?>
+       Developer by : <a href="<?= base_url('admin/reset_penilaian')?>"><span class="badge badge-primary"><?= $identitas->nama_developer ?></span> &copy; <?php echo date('Y'); ?></a>
     </div>
 </div>
 

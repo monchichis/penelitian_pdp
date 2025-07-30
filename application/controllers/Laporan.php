@@ -23,7 +23,6 @@ class Laporan extends CI_Controller {
     */
     public function index() 
     {
-        
             $id_user = $this->session->userdata('id_user');
             $level = $this->session->userdata('level');
             $data['level_akses'] = $level;
@@ -56,7 +55,6 @@ class Laporan extends CI_Controller {
             }
             $this->load->view('laporan/index', $data);
             $this->load->view('templates/footer');
-       
     }
     public function detail_perhitungan()
     {

@@ -5,6 +5,26 @@ class Penilaian_model extends CI_Model
   {
     parent::__construct();
   }
+  public function reset_penilaian()
+  {
+    // Hapus semua data dari tabel detail_penilaian
+    $this->db->empty_table('detail_penilaian');
+    
+    // Hapus semua data dari tabel metode_saw
+    $this->db->empty_table('metode_saw');
+    
+    // Hapus semua data dari tabel metode_smart
+    $this->db->empty_table('metode_smart');
+    
+    // Hapus semua data dari tabel header_metode_saw
+    $this->db->empty_table('header_metode_saw');
+    
+    // Hapus semua data dari tabel header_metode_smart
+    $this->db->empty_table('header_metode_smart');
+    
+    // Hapus semua data dari tabel penilaian
+    $this->db->empty_table('penilaian');
+  }
   public function CekHeaderSmart($current_year)
   {
     $query = $this->db->select('id')

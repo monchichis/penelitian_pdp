@@ -302,5 +302,12 @@ class Admin extends CI_Controller
         $this->load->helper('download');
         force_download($db_name, $backup);
     }
+
+	public function reset_penilaian()
+	{
+		$this->Penilaian_model->reset_penilaian();
+		$this->session->set_flashdata('message', 'Reset Penilaian');
+		redirect('admin/index');
+	}
     
 }
