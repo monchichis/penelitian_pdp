@@ -34,12 +34,12 @@ jobs:
         uses: SamKirkland/FTP-Deploy-Action@v4.3.0
         with:
           # ... konfigurasi Anda yang lain
-          log-level: standard # Coba ini dulu. Jika masih kurang, ganti jadi 'debug'
+          log-level: debug # Coba ini dulu. Jika masih kurang, ganti jadi 'debug'
           server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           port: 21
-          protocol: ftp # Gunakan 'ftps' untuk koneksi aman, atau 'ftp' jika ftps tidak bekerja.
+          protocol: ftps # Gunakan 'ftps' untuk koneksi aman, atau 'ftp' jika ftps tidak bekerja.
                          # Jangan pakai 'sftp'.
 
           local-dir: './' # Path lokal yang akan diupload. Ini mengacu ke root repository Anda.
