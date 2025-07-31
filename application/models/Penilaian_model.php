@@ -26,6 +26,7 @@ class Penilaian_model extends CI_Model
     $this->db->empty_table('penilaian');
   }
   //coba lagi ci/cdnya
+  //cek log yaml
   public function CekHeaderSmart($current_year)
   {
     $query = $this->db->select('id')
